@@ -1,0 +1,19 @@
+# This repo holds only public-facing documentation + the GitHub Action.
+# Source code, tests, build artifacts, and CI workflows live in the private
+# kgovind-coder/vouchsafe-source repository.
+
+# Common junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Any accidentally-leaked Python artifacts
+__pycache__/
+*.py[codz]
+.venv/
+*.egg-info/
+
+# Editor configs
+.vscode/
+.idea/

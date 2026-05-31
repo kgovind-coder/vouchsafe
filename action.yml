@@ -1,0 +1,121 @@
+name: "Vouchsafe AI Inventory Scan"
+description: >
+  Run the Vouchsafe scanner against your repository and produce a
+  signed, deterministic AI/LLM/agent/MCP inventory in any of seven
+  output formats. Maps findings to EU AI Act, ISO/IEC 42001, NIST AI RMF,
+  OWASP LLM Top 10, OWASP Agentic Top 10, and MITRE ATLAS.
+author: "Kurri Govinda Reddy"
+branding:
+  icon: "shield"
+  color: "blue"
+
+inputs:
+  path:
+    description: "Repository path to scan (relative to GITHUB_WORKSPACE)."
+    required: false
+    default: "."
+  formats:
+    description: >-
+      Comma-separated list of output formats: json, sarif, markdown,
+      html, csv, junit, cyclonedx, spdx.
+    required: false
+    default: "json,sarif"
+  output-prefix:
+    description: "Output file prefix (extensions appended per format)."
+    required: false
+    default: "vouchsafe-report"
+  since:
+    description: >-
+      Optional git ref. When set, scan only files changed since this ref
+      (useful for PR-mode scans). Falls back to a full scan if the ref
+      isn't reachable.
+    required: false
+    default: ""
+  version:
+    description: >-
+      Vouchsafe release tag to install. Defaults to "latest", which fetches
+      the most recent release.
+    required: false
+    default: "latest"
+  fail-on-findings:
+    description: >-
+      If "true", the action exits with code 1 when any findings are
+      detected. Default "false" (informational mode).
+    required: false
+    default: "false"
+
+outputs:
+  report-json:
+    description: "Path to the JSON report file (if json format requested)."
+    value: ${{ steps.scan.outputs.report-json }}
+  findings-count:
+    description: "Total number of findings detected."
+    value: ${{ steps.scan.outputs.findings-count }}
+  vendor-count:
+    description: "Number of unique vendors detected."
+    value: ${{ steps.scan.outputs.vendor-count }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download Vouchsafe binary
+      shell: bash
+      env:
+        VS_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        case "${RUNNER_OS}" in
+          Linux)   ARTIFACT="vouchsafe-linux-x64";   EXT="";;
+          macOS)   ARTIFACT="vouchsafe-macos-universal"; EXT="";;
+          Windows) ARTIFACT="vouchsafe-windows-x64";   EXT=".exe";;
+          *) echo "Unsupported runner: ${RUNNER_OS}"; exit 1;;
+        esac
+
+        if [ "${VS_VERSION}" = "latest" ]; then
+          URL="https://github.com/kgovind-coder/vouchsafe/releases/latest/download/${ARTIFACT}${EXT}"
+        else
+          URL="https://github.com/kgovind-coder/vouchsafe/releases/download/${VS_VERSION}/${ARTIFACT}${EXT}"
+        fi
+
+        echo "Downloading $URL"
+        curl -fsSL -o "${RUNNER_TEMP}/vouchsafe${EXT}" "$URL"
+        chmod +x "${RUNNER_TEMP}/vouchsafe${EXT}"
+
+        echo "${RUNNER_TEMP}" >> "$GITHUB_PATH"
+        echo "VOUCHSAFE_BIN=${RUNNER_TEMP}/vouchsafe${EXT}" >> "$GITHUB_ENV"
+
+    - name: Run vouchsafe scan
+      id: scan
+      shell: bash
+      env:
+        VS_PATH: ${{ inputs.path }}
+        VS_FORMATS: ${{ inputs.formats }}
+        VS_OUTPUT: ${{ inputs.output-prefix }}
+        VS_SINCE: ${{ inputs.since }}
+        VS_FAIL: ${{ inputs.fail-on-findings }}
+      run: |
+        set -euo pipefail
+        ARGS=(scan "$VS_PATH" --output "$VS_OUTPUT" --quiet)
+        IFS=',' read -ra FORMATS <<< "$VS_FORMATS"
+        for f in "${FORMATS[@]}"; do
+          ARGS+=(--format "${f// /}")
+        done
+        if [ -n "$VS_SINCE" ]; then
+          ARGS+=(--since "$VS_SINCE")
+        fi
+
+        "$VOUCHSAFE_BIN" "${ARGS[@]}"
+
+        # Report counts via stdout for the outputs
+        if [ -f "${VS_OUTPUT}.json" ]; then
+          echo "report-json=${VS_OUTPUT}.json" >> "$GITHUB_OUTPUT"
+          FINDINGS=$(python3 -c "import json;d=json.load(open('${VS_OUTPUT}.json'));print(len(d.get('findings',[])))" 2>/dev/null || echo 0)
+          VENDORS=$(python3 -c "import json;d=json.load(open('${VS_OUTPUT}.json'));print(len({f['vendor'] for f in d.get('findings',[])}))" 2>/dev/null || echo 0)
+          echo "findings-count=${FINDINGS}" >> "$GITHUB_OUTPUT"
+          echo "vendor-count=${VENDORS}" >> "$GITHUB_OUTPUT"
+          echo "::notice::Vouchsafe detected ${FINDINGS} AI touchpoints across ${VENDORS} vendors"
+          if [ "$VS_FAIL" = "true" ] && [ "$FINDINGS" -gt 0 ]; then
+            echo "::error::fail-on-findings is enabled and ${FINDINGS} findings were detected"
+            exit 1
+          fi
+        fi
