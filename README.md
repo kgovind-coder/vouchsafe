@@ -3,6 +3,9 @@
 > A signed, deterministic inventory of every AI / LLM / agent / MCP touchpoint in your codebase, mapped to every regulator that is going to ask.
 
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Marketplace-Vouchsafe%20AI%20Inventory%20Scan-2ea44f?logo=github)](https://github.com/marketplace/actions/vouchsafe-ai-inventory-scan)
+[![Latest release](https://img.shields.io/github/v/release/kgovind-coder/vouchsafe?label=release)](https://github.com/kgovind-coder/vouchsafe/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/kgovind-coder/vouchsafe/total?label=downloads)](https://github.com/kgovind-coder/vouchsafe/releases)
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](#)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](#)
 
