@@ -120,6 +120,8 @@ Published on the [GitHub Marketplace](https://github.com/marketplace/actions/vou
 
 ### If you like it, **[⭐ star the repo](https://github.com/kgovind-coder/vouchsafe)** — it helps other compliance/security folks find it.
 
+Repo: <https://github.com/kgovind-coder/vouchsafe>
+
 ## Quickstart
 
 ```bash
