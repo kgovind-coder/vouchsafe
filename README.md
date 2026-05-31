@@ -85,42 +85,31 @@ your existing AI security stack — see **[docs/COMPARISON.md](docs/COMPARISON.m
 
 ## Install
 
-Pick the option that matches how you work. Most people want **option 1**.
+Vouchsafe ships pre-built for **Windows, macOS, and Linux** — no Python, no `pip`, no virtualenv.
 
-### 1. Desktop app (one-click installer — recommended)
+### 👉 [Grab the latest release](https://github.com/kgovind-coder/vouchsafe/releases/latest)
 
-No terminal, no PATH, no checksum dance. Download, run the installer, launch Vouchsafe from your Start menu / Applications / app launcher, drag a folder onto the window, click **Scan**.
+Every release page has:
 
-| OS | Download | Size |
-|---|---|---|
-| **Windows 10/11** | [`vouchsafe-setup.exe`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/vouchsafe-setup.exe) | ~80 MB |
-| **macOS** (Intel + Apple Silicon) | [`Vouchsafe-v0.3.0.dmg`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/Vouchsafe-v0.3.0.dmg) | ~90 MB |
-| **Linux** (any modern distro) | [`Vouchsafe-v0.3.0-x86_64.AppImage`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/Vouchsafe-v0.3.0-x86_64.AppImage) | ~95 MB |
+- **One-click desktop installers** — `vouchsafe-setup.exe` (Windows), `Vouchsafe-*.dmg` (macOS universal), `Vouchsafe-*.AppImage` (Linux). No terminal needed.
+- **Single-file CLI binaries** — `vouchsafe-windows-x64.exe`, `vouchsafe-macos-universal`, `vouchsafe-linux-x64`. Drop on `PATH` and run.
+- **SHA-256 checksums** for every asset.
+- **Signed release notes** describing what changed.
 
-> **macOS first run:** Right-click the app → **Open** → **Open** (one-time Gatekeeper bypass; the binary is unsigned by Apple but its SHA-256 is published below).
-> **Linux AppImage:** `chmod +x Vouchsafe-v0.3.0-x86_64.AppImage` then double-click.
+> Mac users: right-click → Open → Open on first launch (one-time Gatekeeper bypass).
+> Linux AppImage users: `chmod +x Vouchsafe-*.AppImage` then double-click.
 
-### 2. Command line (single binary)
-
-For terminal users, CI runners, or anyone who wants `vouchsafe scan ./repo` in a shell.
-
-| OS | Binary | Checksum |
-|---|---|---|
-| Linux x64 | [`vouchsafe-linux-x64`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/vouchsafe-linux-x64) | [`.sha256`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/vouchsafe-linux-x64.sha256) |
-| macOS universal | [`vouchsafe-macos-universal`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/vouchsafe-macos-universal) | [`.sha256`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/vouchsafe-macos-universal.sha256) |
-| Windows x64 | [`vouchsafe-windows-x64.exe`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/vouchsafe-windows-x64.exe) | [`.sha256`](https://github.com/kgovind-coder/vouchsafe/releases/latest/download/vouchsafe-windows-x64.sha256) |
-
-Download, mark it executable (Linux/macOS: `chmod +x vouchsafe-*`), move it onto your `PATH`, and run `vouchsafe --version`.
-
-### 3. Docker (multi-arch: amd64 + arm64)
+### Docker (multi-arch: amd64 + arm64)
 
 ```bash
 docker run --rm -v "$PWD":/scan ghcr.io/kgovind-coder/vouchsafe:latest scan /scan
 ```
 
-### 4. GitHub Action (run Vouchsafe on every PR)
+Image: [`ghcr.io/kgovind-coder/vouchsafe`](https://github.com/kgovind-coder/vouchsafe/pkgs/container/vouchsafe).
 
-Published on the [GitHub Marketplace](https://github.com/marketplace/actions/vouchsafe-ai-inventory-scan). Add to any workflow:
+### GitHub Action (run Vouchsafe on every PR)
+
+Published on the [GitHub Marketplace](https://github.com/marketplace/actions/vouchsafe-ai-inventory-scan):
 
 ```yaml
 - uses: kgovind-coder/vouchsafe@v0.3.0
@@ -129,9 +118,7 @@ Published on the [GitHub Marketplace](https://github.com/marketplace/actions/vou
     formats: json,sarif
 ```
 
-### All assets + checksums
-
-Every asset (installers, binaries, `.sha256` files) is listed on the [v0.3.0 release page](https://github.com/kgovind-coder/vouchsafe/releases/tag/v0.3.0). Future releases land at the same URL with the new tag.
+### If you like it, **[⭐ star the repo](https://github.com/kgovind-coder/vouchsafe)** — it helps other compliance/security folks find it.
 
 ## Quickstart
 
