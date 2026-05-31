@@ -126,7 +126,7 @@ docker run --rm -v "$PWD":/scan ghcr.io/kgovind-coder/vouchsafe:latest scan /sca
 ### GitHub Action
 
 ```yaml
-- uses: kgovind-coder/vouchsafe@v0.2.0
+- uses: kgovind-coder/vouchsafe@v0.3.0
   with:
     path: .
     formats: json,sarif
@@ -168,13 +168,13 @@ vouchsafe init
 
 ## Status
 
-**v0.2.0 shipped 2026-05-31** — 32 detectors across 10 programming languages,
+**v0.3.0 shipped 2026-05-31** — native desktop GUI + Windows/macOS/Linux installers, plus 32 detectors across 10 programming languages,
 8 output formats, 5-framework regulatory mappings, Docker image, GitHub Action,
 local web viewer, diff mode. 84 unit tests, full cross-OS CI matrix.
 
-See the [CHANGELOG](CHANGELOG.md) for what's in this release, and the [ROADMAP](docs/ROADMAP.md) for v0.2+.
+See the [CHANGELOG](CHANGELOG.md) for what's in this release, and the [ROADMAP](docs/ROADMAP.md) for v0.4+.
 
-### What ships in v0.2.0
+### What ships in v0.3.0
 
 **10 language detectors:** Python · JavaScript/TypeScript · Java/Kotlin (Maven + Gradle) · Go · Rust · C#/.NET · Ruby · PHP · Swift · Dart/Flutter.
 
