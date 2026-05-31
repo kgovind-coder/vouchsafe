@@ -188,7 +188,7 @@ See the [CHANGELOG](CHANGELOG.md) for what's in this release, and the [ROADMAP](
 
 **Distribution:** signed binaries on GitHub Releases · Docker multi-arch image on GHCR · official GitHub Action · `--serve` local web viewer · diff mode (`--since`) for PR scans · `vouchsafe init` for project configs.
 
-### What's coming in v0.3+
+### What's coming in v0.4+
 
 Ed25519 signing for reports · PDF generation with regulator templates · Vanta/Drata/Sprinto direct upload formats · Salesforce Einstein / SAP Joule / ServiceNow Now Assist detection · embedded-vectors heuristic · PyPI publishing.
 
