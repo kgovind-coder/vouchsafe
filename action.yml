@@ -1,9 +1,5 @@
 name: "Vouchsafe AI Inventory Scan"
-description: >
-  Run the Vouchsafe scanner against your repository and produce a
-  signed, deterministic AI/LLM/agent/MCP inventory in any of seven
-  output formats. Maps findings to EU AI Act, ISO/IEC 42001, NIST AI RMF,
-  OWASP LLM Top 10, OWASP Agentic Top 10, and MITRE ATLAS.
+description: "Inventory every AI/LLM/agent/MCP touchpoint in your code. Maps to EU AI Act, ISO 42001, OWASP LLM, MITRE ATLAS."
 author: "Kurri Govinda Reddy"
 branding:
   icon: "shield"
